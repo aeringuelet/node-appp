@@ -1,30 +1,17 @@
-var Todos = require('../models/todoModel');
+var Todos = require('../models/todo/todoModel');
+var ApiService = require('../services/apiService');
 var bodyParser = require('body-parser');
 
 module.exports = app => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    app.get('/api/todos', (req, res) => {
-        Todos
-            .find({},
-                (err, todos) => {
-                    if (err) throw err;
-
-                    res.send(todos);
-                }
-            );
+    app.get('/api/todos', async (req, res) => {
+        res.send(await ApiService.listTodos());
     });
 
-    app.get('/api/todos/:uname', (req, res) => {
-        Todos
-            .find({ userName: req.params.uname },
-                (err, todos) => {
-                    if (err) throw err;
-
-                    res.send(todos);
-                }
-            );
+    app.get('/api/todos/:uname', async (req, res) => {
+        res.send(await ApiService.getTodoByUserName(req.params.uname));
     });
 
     app.get('/api/todo/:id', (req, res) => {
