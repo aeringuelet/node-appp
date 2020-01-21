@@ -1,4 +1,3 @@
-var Todos = require('../models/todo/todoModel');
 var ApiService = require('../services/apiService');
 var bodyParser = require('body-parser');
 
@@ -10,58 +9,19 @@ module.exports = app => {
         res.send(await ApiService.listTodos());
     });
 
-    app.get('/api/todos/:uname', async (req, res) => {
-        res.send(await ApiService.getTodoByUserName(req.params.uname));
+    app.get('/api/todos/:uname', async ({ params: { uname: userName } }, res) => {
+        res.send(await ApiService.getTodoByUserName(userName));
     });
 
-    app.get('/api/todo/:id', (req, res) => {
-        Todos
-            .findById(req.params.id, 
-                (err, todo) => {
-                    if (err) throw err;
-
-                    res.send(todo);
-                }
-            );
+    app.get('/api/todo/:id', async ({ params: { id } }, res) => {
+        res.send(await ApiService.getTodoById(id))
     });
 
-    app.post('/api/todos', ({ body }, res) => {
-        if (body._id) {
-            Todos
-            .findByIdAndUpdate(body._id, {
-                    todo: body.todo, 
-                    content: body.content,
-                    isDone: body.isDone,
-                    hasAttachment: body.hasAttachment
-                }, {new: true}, 
-                (err, todo) => {
-                    if (err) throw err;
-
-                    res.send(todo);
-                }
-            )
-        } else {
-            let newTodo = Todos({
-                username: 'test',
-                todo: body.todo, 
-                content: body.content,
-                isDone: body.isDone,
-                hasAttachment: body.hasAttachment
-            });
-            
-            newTodo.save(err => {
-                if (err) throw err;
-
-                res.send(newTodo);
-            });
-        }
+    app.post('/api/todos', async ({ body }, res) => {
+        res.send(await ApiService.createOrUpdateTodo(body));
     });
 
-    app.delete('api/todos', ({ body: { id } }, res) => {
-        Todos.findOneAndRemove(id, err => {
-            if (err) throw err;
-
-            res.send('Success');
-        });
+    app.delete('api/todo/:id', async ({ params: { id } }, res) => {
+        res.send(await ApiService.delete(id))
     });
 }

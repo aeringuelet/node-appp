@@ -1,7 +1,7 @@
-var Todos = require('./todoModel');
+var TodoModel = require('./todoModel');
 
 const list = () => {
-    return Todos
+    return TodoModel
         .find((err, todos) => {
                 if (err) Promise.reject(err);
 
@@ -10,8 +10,8 @@ const list = () => {
         );
 }
 
-const getByUserName = (userName) => {
-    return Todos
+const getByUserName = userName => {
+    return TodoModel
         .find({ userName },
             (err, todos) => {
                 if (err) Promise.reject(err);
@@ -20,58 +20,56 @@ const getByUserName = (userName) => {
             }
         );
 }
-// app.get('/api/todo/:id', (req, res) => {
-//     Todos
-//         .findById(req.params.id, 
-//             (err, todo) => {
-//                 if (err) throw err;
 
-//                 res.send(todo);
-//             }
-//         );
-// });
+const getById = id => {
+    return TodoModel
+        .findById(id,
+            (err, todo) => {
+                if (err) Promise.reject(err);
 
-// app.post('/api/todos', ({ body }, res) => {
-//     if (body._id) {
-//         Todos
-//         .findByIdAndUpdate(body._id, {
-//                 todo: body.todo, 
-//                 content: body.content,
-//                 isDone: body.isDone,
-//                 hasAttachment: body.hasAttachment
-//             }, {new: true}, 
-//             (err, todo) => {
-//                 if (err) throw err;
+                Promise.resolve(todo);
+            }
+        );
+}
 
-//                 res.send(todo);
-//             }
-//         )
-//     } else {
-//         let newTodo = Todos({
-//             username: 'test',
-//             todo: body.todo, 
-//             content: body.content,
-//             isDone: body.isDone,
-//             hasAttachment: body.hasAttachment
-//         });
-        
-//         newTodo.save(err => {
-//             if (err) throw err;
+const update = (id, { todo, content, isDone, hasAttachment }) => {
+    return TodoModel
+        .findByIdAndUpdate(id, {
+            todo,
+            content,
+            isDone,
+            hasAttachment
+        }, {new: true}, 
+        (err, todo) => {
+            if (err) Promise.reject(err);
 
-//             res.send(newTodo);
-//         });
-//     }
-// });
+            Promise.resolve(todo);
+        }
+    )
+}
 
-// app.delete('api/todos', ({ body: { id } }, res) => {
-//     Todos.findOneAndRemove(id, err => {
-//         if (err) throw err;
+const create = Todo => {    
+    return Todo
+        .save(err => {
+            if (err) Promise.reject(err);
 
-//         res.send('Success');
-//     });
-// });
+            Promise.resolve(newTodo);
+        });
+}
+
+const del = id => {
+    return TodoModel.findOneAndRemove(id, err => {
+        if (err) Promise.reject(err);
+
+        Promise.resolve('Success');
+    });
+}
 
 module.exports = {
     list,
-    getByUserName
+    getByUserName,
+    create,
+    update,
+    delete: del,
+    getById
 }
