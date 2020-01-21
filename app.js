@@ -14,7 +14,7 @@ var port = process.env.PORT || 4000;
 app.use('assets', express.static(__dirname + '/public'));
 app.use(cors());
 
-mongoose.connect(config.getDbConnectionString());
+mongoose.connect(config.getDbConnectionString(), { useNewUrlParser: true, useUnifiedTopology: true });
 setupController(app);
 apiController(app);
 
