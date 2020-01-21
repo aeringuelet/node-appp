@@ -1,0 +1,7 @@
+{
+    "dbUser": "root",
+    "dbPwd": "root",
+    "dbName": "nodetodo",
+    "dbHost": "localhost",
+    "dbPort": "27017"
+}
