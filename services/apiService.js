@@ -1,4 +1,5 @@
 var Todos = require('../models/todo/index');
+var TodoModel = require('../models/todo/todoModel');
 
 /* --- Async/await implementation --- */
 
@@ -14,11 +15,11 @@ const createOrUpdateTodo = async body => {
     if (body._id) {
         return await Todos.update(body._id, body);
     } else {
-        let newTodo = Todos({
-            username: 'test',
+        let newTodo = TodoModel({
+            userName: body.userName,
             todo: body.todo, 
             content: body.content,
-            isDone: body.isDone,
+            isDone: body.isDone ? body.isDone : false,
             hasAttachment: body.hasAttachment
         });
         

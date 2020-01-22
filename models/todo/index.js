@@ -45,7 +45,7 @@ const create = async Todo => {
 }
 
 const del = async id => {
-    return TodoModel.findOneAndRemove()
+    return TodoModel.deleteOne({ _id: id })
     .then(deletedTodo => 'Success')
     .catch(err => { throw err });
 }

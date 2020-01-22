@@ -23,7 +23,7 @@ module.exports = app => {
         res.send(await ApiService.createOrUpdateTodo(body));
     });
 
-    app.delete('api/todo/:id', async ({ params: { id } }, res) => {
+    app.delete('/api/todo/:id', async ({ params: { id } }, res) => {
         res.send(await ApiService.delete(id))
     });
 
