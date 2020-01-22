@@ -5,9 +5,6 @@ var config = require('./config');
 var setupController = require('./controllers/setupController');
 var apiController = require('./controllers/apiController');
 var cors = require('cors');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 var port = process.env.PORT || 4000;
 

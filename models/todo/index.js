@@ -1,38 +1,38 @@
 var TodoModel = require('./todoModel');
 
-const list = () => {
+const list = async () => {
     return TodoModel
         .find((err, todos) => {
-                if (err) Promise.reject(err);
+                if (err) throw err;
 
-                return Promise.resolve(todos);
+                return todos;
             }
         );
 }
 
-const getByUserName = userName => {
+const getByUserName = async userName => {
     return TodoModel
         .find({ userName },
             (err, todos) => {
-                if (err) Promise.reject(err);
+                if (err) throw err;
 
-                Promise.resolve(todos);
+                return todos;
             }
         );
 }
 
-const getById = id => {
+const getById = async id => {
     return TodoModel
         .findById(id,
             (err, todo) => {
-                if (err) Promise.reject(err);
+                if (err) throw err;
 
-                Promise.resolve(todo);
+                return todo;
             }
         );
 }
 
-const update = (id, { todo, content, isDone, hasAttachment }) => {
+const update = async (id, { todo, content, isDone, hasAttachment }) => {
     return TodoModel
         .findByIdAndUpdate(id, {
             todo,
@@ -41,27 +41,27 @@ const update = (id, { todo, content, isDone, hasAttachment }) => {
             hasAttachment
         }, {new: true}, 
         (err, todo) => {
-            if (err) Promise.reject(err);
+            if (err) throw err;
 
-            Promise.resolve(todo);
+            return todo;
         }
     )
 }
 
-const create = Todo => {    
+const create = async Todo => {
     return Todo
         .save(err => {
-            if (err) Promise.reject(err);
+            if (err) throw err;
 
-            Promise.resolve(newTodo);
+            return newTodo;
         });
 }
 
-const del = id => {
+const del = async id => {
     return TodoModel.findOneAndRemove(id, err => {
-        if (err) Promise.reject(err);
+        if (err) throw err;
 
-        Promise.resolve('Success');
+        return 'Success';
     });
 }
 

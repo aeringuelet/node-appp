@@ -1,4 +1,7 @@
-var configValues = require('./config');
+const configValues = require('./config');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
     getDbConnectionString: () => {
