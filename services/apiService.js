@@ -1,93 +1,15 @@
 var Todos = require('../models/todo/index');
 var TodoModel = require('../models/todo/todoModel');
 
-/* --- Async/await implementation --- */
+// use this service as wrapper of the other entities (todos, users) and orchestrate them 
+const createTodo = (body) => {
+    // get the user and check if exists
 
-const listTodos = async () => {
-    return await Todos.list();
-};
+    // if not, create it
 
-const getTodoByUserName = async userName => {
-    return await Todos.getByUserName(userName);
-};
-
-const createOrUpdateTodo = async body => {
-    if (body._id) {
-        return await Todos.update(body._id, body);
-    } else {
-        let newTodo = TodoModel({
-            userName: body.userName,
-            todo: body.todo, 
-            content: body.content,
-            isDone: body.isDone ? body.isDone : false,
-            hasAttachment: body.hasAttachment
-        });
-        
-        return await Todos.create(newTodo)
-    }
-};
-
-const del = async id => {
-    return await Todos.delete(id);
-};
-
-
-/* --- Promises implementation --- */
-
-// const listTodos = () => {
-//     return Todos.list().then(todos => {
-//         return todos;
-//     });
-// };
-
-// const getTodoByUserName = userName => {
-//     return Todos.getByUserName(userName).then(todo => {
-//         return todo;
-//     });
-// };
-
-// const getTodoById = id => {
-//     return Todos.getById(id).then(todo => {
-//         return todo;
-//     });
-// };
-
-// const createOrUpdateTodo = body => {
-//     if (body._id) {
-//         return Todos.update(body._id, body).then(todo => {
-//             return todo;
-//         });
-//     } else {
-//         let newTodo = Todos({
-//             username: 'test',
-//             todo: body.todo, 
-//             content: body.content,
-//             isDone: body.isDone,
-//             hasAttachment: body.hasAttachment
-//         });
-        
-//         return Todos.create(newTodo).then(todo => {
-//             return todo;
-//         })
-//     }
-// };
-
-// const del = async id => {
-//     return Todos.delete(id).then(result => {
-//         return result;
-//     });
-// };
-
-/* --- Callback implementation example --- */
-
-const getTodoById = (id, callback) => {
-    Todos.getById(id, callback);
-};
+    // else create it straight 
+}
 
 module.exports = {
-    listTodos,
-    getTodoByUserName,
-    createOrUpdateTodo,
-    getTodoById,
-    delete: del
+
 }
