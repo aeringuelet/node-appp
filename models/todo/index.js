@@ -2,32 +2,25 @@ var TodoModel = require('./todoModel');
 
 const list = async () => {
     return TodoModel
-        .find((err, todos) => {
-                if (err) throw err;
-
-                return todos;
-            }
-        );
+        .find()
+        .then(todos => todos)
+        .catch(err => { throw err });
 }
 
 const getByUserName = async userName => {
     return TodoModel
-        .find({ userName },
-            (err, todos) => {
-                if (err) throw err;
-
-                return todos;
-            }
-        );
+        .find({ userName })
+        .then(todos => todos)
+        .catch(err => { throw err });
 }
 
-const getById = async id => {
+const getById = (id, callback) => {
     return TodoModel
         .findById(id,
             (err, todo) => {
                 if (err) throw err;
 
-                return todo;
+                callback(todo);
             }
         );
 }
@@ -39,30 +32,22 @@ const update = async (id, { todo, content, isDone, hasAttachment }) => {
             content,
             isDone,
             hasAttachment
-        }, {new: true}, 
-        (err, todo) => {
-            if (err) throw err;
-
-            return todo;
-        }
-    )
+        }, {new: true})
+        .then(todo => todo)
+        .catch(err => { throw err });
 }
 
 const create = async Todo => {
     return Todo
-        .save(err => {
-            if (err) throw err;
-
-            return newTodo;
-        });
+        .save()
+        .then(newTodo => newTodo)
+        .catch(err => { throw err });
 }
 
 const del = async id => {
-    return TodoModel.findOneAndRemove(id, err => {
-        if (err) throw err;
-
-        return 'Success';
-    });
+    return TodoModel.findOneAndRemove()
+    .then(deletedTodo => 'Success')
+    .catch(err => { throw err });
 }
 
 module.exports = {

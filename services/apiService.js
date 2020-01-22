@@ -1,15 +1,13 @@
 var Todos = require('../models/todo/index');
 
+/* --- Async/await implementation --- */
+
 const listTodos = async () => {
     return await Todos.list();
 };
 
 const getTodoByUserName = async userName => {
     return await Todos.getByUserName(userName);
-};
-
-const getTodoById = async id => {
-    return await Todos.getById(id);
 };
 
 const createOrUpdateTodo = async body => {
@@ -28,9 +26,61 @@ const createOrUpdateTodo = async body => {
     }
 };
 
-
 const del = async id => {
     return await Todos.delete(id);
+};
+
+
+/* --- Promises implementation --- */
+
+// const listTodos = () => {
+//     return Todos.list().then(todos => {
+//         return todos;
+//     });
+// };
+
+// const getTodoByUserName = userName => {
+//     return Todos.getByUserName(userName).then(todo => {
+//         return todo;
+//     });
+// };
+
+// const getTodoById = id => {
+//     return Todos.getById(id).then(todo => {
+//         return todo;
+//     });
+// };
+
+// const createOrUpdateTodo = body => {
+//     if (body._id) {
+//         return Todos.update(body._id, body).then(todo => {
+//             return todo;
+//         });
+//     } else {
+//         let newTodo = Todos({
+//             username: 'test',
+//             todo: body.todo, 
+//             content: body.content,
+//             isDone: body.isDone,
+//             hasAttachment: body.hasAttachment
+//         });
+        
+//         return Todos.create(newTodo).then(todo => {
+//             return todo;
+//         })
+//     }
+// };
+
+// const del = async id => {
+//     return Todos.delete(id).then(result => {
+//         return result;
+//     });
+// };
+
+/* --- Callback implementation example --- */
+
+const getTodoById = (id, callback) => {
+    Todos.getById(id, callback);
 };
 
 module.exports = {
