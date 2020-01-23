@@ -21,20 +21,24 @@ const getTodoByUserName = async userName => {
     return await Todos.getByUserName(userName);
 };
 
-const createOrUpdateTodo = async body => {
-    if (body._id) {
-        return await Todos.update(body._id, body);
+const update = async (id, body) => {
+    if (id) {
+        return await Todos.update(id, body);
     } else {
-        let newTodo = TodoModel({
-            userName: body.userName,
-            todo: body.todo, 
-            content: body.content,
-            isDone: body.isDone ? body.isDone : false,
-            hasAttachment: body.hasAttachment
-        });
-        
-        return await Todos.create(newTodo)
+        throw new Error("Object ID must be included to make the update");
     }
+};
+
+const create = async body => {
+    let newTodo = TodoModel({
+        userName: body.userName,
+        todo: body.todo, 
+        content: body.content,
+        isDone: body.isDone ? body.isDone : false,
+        hasAttachment: body.hasAttachment
+    });
+    
+    return await Todos.create(newTodo)
 };
 
 const del = async id => {
@@ -97,7 +101,8 @@ const getTodoById = (id, callback) => {
 module.exports = {
     listTodos,
     getTodoByUserName,
-    createOrUpdateTodo,
+    create,
+    update,
     getTodoById,
     delete: del
 }

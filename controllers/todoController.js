@@ -19,6 +19,10 @@ module.exports = app => {
         res.send(await todoService.delete(id))
     });
 
+    app.put('/api/todo/:id', async ({ params: { id }, body }, res) => {
+        res.send(await todoService.update(id, body));
+    });
+
 
     /* --- Promises implementation --- */ 
 
