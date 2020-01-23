@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var setupController = require('./controllers/setupController');
 var apiController = require('./controllers/apiController');
+var todoController = require('./controllers/todoController');
 var cors = require('cors');
 
 var port = process.env.PORT || 4000;
@@ -14,5 +15,6 @@ app.use(cors());
 mongoose.connect(config.getDbConnectionString(), { useNewUrlParser: true, useUnifiedTopology: true });
 setupController(app);
 apiController(app);
+todoController(app);
 
 app.listen(port);

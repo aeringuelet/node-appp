@@ -5,11 +5,11 @@ var Users = require('./userService');
 const createTodo = async body => {
     let user = await Users.getByUserName(body.userName);
     
-    if (user) {
-        return await Todos.createOrUpdateTodo(body);
-    } else {
-        // create user and then todo
+    if (user && !user.length) {
+        user = await Users.create({ userName: body.userName }); 
     }
+
+    return await Todos.createOrUpdateTodo(body);
 }
 
 module.exports = { 

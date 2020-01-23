@@ -16,3 +16,9 @@ const create = async body => {
     
     return await Users.create(newUser)
 };
+
+module.exports = {
+    list,
+    getByUserName,
+    create
+}
